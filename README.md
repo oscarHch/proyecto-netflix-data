@@ -4,7 +4,7 @@ Una aplicación de escritorio interactiva desarrollada en Python para el anális
 
 ## Características
 
-* **Dashboard Principal:** Vista unificada con indicadores clave y gráficos de tendencias.
+* **Dashboard principal:** Vista unificada con indicadores clave y gráficos de tendencias.
 * **Análisis estadístico:** Cálculo automático de duración media, diversidad de países, y brecha (gap) entre estreno y adición a la plataforma.
 * **Visualización dinámica:** Gráficos de barras y líneas integrados mediante Matplotlib.
 * **Gestión de datos:** Tabla interactiva de datos.
