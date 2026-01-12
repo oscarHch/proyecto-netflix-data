@@ -2,28 +2,31 @@ import pandas as pd
 import os
 
 def clean_netflix_data(file_path):
-
-    # Ruta absoluta
     base_path = os.path.dirname(__file__)
     full_path = os.path.join(base_path, '..', file_path)
 
     df = pd.read_csv(full_path)
 
-    # Llenamos valores faltantes con valores predeterminados
+    # Limpieza de rating (adicional)
+    df = df[~df['rating'].str.contains('min|Season', na=False)]
+
+    # Valores predeterminados
     df['director'] = df['director'].fillna('Unknown Director')
     df['cast'] = df['cast'].fillna('No Cast Listed')
     df['country'] = df['country'].fillna('Unknown Country')
     df['rating'] = df['rating'].fillna('Not Rated')
-    df['duration'] = df['duration'].fillna('0 min')
 
     # Eliminamos filas con valores faltantes en columnas
     df.dropna(subset = ['rating', 'date_added', 'duration'], inplace=True)
 
-    # Adaptamos las fechas
+    # Fechas
     df['date_added'] = pd.to_datetime(df['date_added'].str.strip(), errors='coerce')
     df.dropna(subset=['date_added'], inplace=True)
-    # Columna año
     df['year_added'] = df['date_added'].dt.year.astype(int)
+
+    # Análisis individuales
+    df['countries_list'] = df['country'].str.split(', ')
+    df['genres_list'] = df['listed_in'].str.split(', ')
 
     return df
 
