@@ -30,6 +30,38 @@ def clean_netflix_data(file_path):
 
     return df
 
+def get_advanced_stats(df):
+    df['year_added_num'] = df['year_added'].astype(float)
+    df['release_year_num'] = df['release_year'].astype(float)
+    
+    # Filtros
+    df_movies = df[df['type'] == 'Movie'].copy()
+    df_movies['duration_num'] = df_movies['duration'].str.extract('(\d+)').astype(float)
+    
+    # Diversidad de paises
+    paises_unicos = len(df.explode('countries_list')['countries_list'].unique())
+    
+    # Antiguedad de titulos
+    antigüedad_promedio = 2024 - df['release_year_num'].mean()
+    
+    # Ratio Series/Movies
+    total = len(df)
+    pct_series = (len(df[df['type'] == 'TV Show']) / total) * 100
+    
+    # Productividad reciente
+    ultimo_año = df['year_added_num'].max()
+    añadidos_reciente = len(df[df['year_added_num'] == ultimo_año])
+
+    stats = {
+        'promedio_duracion': df_movies['duration_num'].mean(),
+        'gap_estreno': (df['year_added_num'] - df['release_year_num']).mean(),
+        'paises_productores': paises_unicos,
+        'antigüedad_media': antigüedad_promedio,
+        'porcentaje_series': pct_series,
+        'añadidos_ultimo_año': añadidos_reciente
+    }
+    return stats
+
 if __name__ == "__main__":
     # Prueba funcional
     data = clean_netflix_data('data/netflix-data.csv')
