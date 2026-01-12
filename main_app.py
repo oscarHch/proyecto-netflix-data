@@ -5,7 +5,7 @@ from src.reporter import generate_pdf_report
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import src.visualizer as visualizer
 
-# Configuración Global de Estilo
+# Estilos
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 FONT_BOLD = ("Arial", 14, "bold")
